@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { useState } from "react"
+import logo from "./assets/logo.png"
 function App() {
   const [showLogin, setShowLogin] = useState(false)
 
@@ -15,6 +16,29 @@ function App() {
   const [youtube, setYoutube] = useState(0)
   const [insta, setInsta] = useState(0)
   const [telegram, setTelegram] = useState(0)
+  const [displayText, setDisplayText] = useState("");
+const fullText = "MISSION ( JEE + NEET ) = MISSIONJEET";
+const handleDownload = () => {
+  const link = document.createElement("a");
+  link.href = logo;
+  link.setAttribute("download", "MISSIONJEET-Logo.png");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+const [darkMode, setDarkMode] = useState(true)
+
+useEffect(() => {
+  if (darkMode) {
+    document.documentElement.classList.add("dark")
+  } else {
+    document.documentElement.classList.remove("dark")
+  }
+}, [darkMode])
+const handleScroll = () => {
+  const section = document.getElementById("about");
+  section.scrollIntoView({ behavior: "smooth" });
+};
 
   useEffect(() => {
     let yt = 0
@@ -46,6 +70,20 @@ function App() {
 
     return () => clearInterval(interval)
   }, [])
+  useEffect(() => {
+  let index = 0;
+
+  const typing = setInterval(() => {
+    if (index < fullText.length) {
+      setDisplayText((prev) => prev + fullText.charAt(index));
+      index++;
+    } else {
+      clearInterval(typing);
+    }
+  }, 70);
+
+  return () => clearInterval(typing);
+}, []);
   
 
   return ( 
@@ -104,6 +142,7 @@ function App() {
 
       {/* NAVBAR */}
       <nav className="flex justify-between items-center px-5 py-4 border-b border-gray-800">
+     
 
         {/* Logo */}
         <h1 className="text-xl md:text-2xl font-bold">
@@ -122,34 +161,51 @@ function App() {
         {/* Login Button (Always Right Side) */}
         <button
           onClick={() => setShowLogin(true)}
-          className="bg-red-600 px-4 py-2 rounded text-sm"
-        >
+      className="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
           Login
         </button>
       </nav>
       {/* HERO */}
       <section className="text-center py-20 px-6">
-        <h2 className="text-3xl md:text-5xl font-extrabold leading-tight">
-          MISSION <br />
-          ( JEE + NEET ) <br />
-          = <span className="text-red-600">MISSIONJEET</span>
-        </h2>
+  <h2 className="text-3xl md:text-5xl font-extrabold leading-tight">
 
-        <div className="mt-8 flex justify-center gap-6">
-          <button className="bg-red-600 px-6 py-3 rounded-lg hover:bg-red-700">
-            Download Logo
-          </button>
-          <button className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-black">
-            Scroll Down
-          </button>
-        </div>
-      </section>
+    <div className="animate-bounceSlow">
+      MISSION <br />
+      ( JEE + NEET )
+    </div>
+
+    <div className="mt-2">
+      = <span className="text-red-600 animate-zoomIn inline-block">
+        MISSIONJEET
+      </span>
+    </div>
+
+  </h2>
+
+  <div className="mt-8 flex justify-center gap-6">
+    <button
+  onClick={handleDownload}
+  className="bg-red-600 px-6 py-3 rounded-lg hover:bg-red-700"
+>
+  Download Logo
+</button>
+    <button 
+  onClick={handleScroll}
+  className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-black"
+>
+  Scroll Down
+</button>
+  </div>
+</section>
+
 
       {/* ABOUT */}
-      <section className="bg-gray-900 py-16 px-8">
+      
+     <section id="about" className="bg-gray-900 py-16 px-8">
         <h3 className="text-3xl font-bold text-center mb-8">
           About MISSIONJEET
         </h3>
+         
 
         <p className="max-w-4xl mx-auto text-gray-300 text-center leading-8">
           MissionJEET is a mission to bring honesty and quality back into the JEE and NEET ecosystem.
